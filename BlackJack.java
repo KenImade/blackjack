@@ -12,11 +12,44 @@ public class BlackJack {
 
         String response = scan.next();
 
+        int playerFirstNumber = generateRandomNumber();
+        int playerSecondNumber = generateRandomNumber();
+        int playerTotal = playerFirstNumber + playerSecondNumber;
+        
+        System.out.print("\n You get a \n " + cardString(playerFirstNumber) + "\n and a \n" + cardString(playerSecondNumber));
+
+        System.out.print("Your total is: " + playerTotal);
+
+        int computerFirstNumber = generateRandomNumber();
+        int computerSecondNumber = generateRandomNumber();
+        int computerTotal = computerFirstNumber + computerSecondNumber;
+
+        System.out.print("The dealer shows \n" + cardString(computerFirstNumber) + "\nand has a card facing down \n" + faceDownCard());
+        System.out.print("\nThe dealer's total is hidden");
+
+        System.out.print("Hit or Stay?: ");
+        String playerInput = scan.next();
+
+        while(true) {
+                playerInput = playerInput.toLowerCase();
+               if (playerInput.equals("hit")){
+                        int newNumber = generateRandomNumber();
+                        String newCard = cardString(newNumber);
+                        playerTotal += newNumber;
+
+                        System.out.print("\n You get a \n " + newCard);
+                        System.out.print("Your new total is " + playerTotal);
+                } else if (playerInput.equals("stay")) {
+                        break;
+                }
+
+                scan.close();
+        }
         
     }
 
     /**
-     * Function1: drawRandomCard
+     * Function: generateRandomNumber
      * @return (int)
      * 
      * Inside the function:
@@ -24,13 +57,13 @@ public class BlackJack {
      *  2. Returns a card.
      */
 
-    public static int drawRandomCard() {
+    public static int generateRandomNumber() {
         int randomNumber = (int)(Math.random() * 13) + 1;
         return randomNumber;
     }
 
     /**
-     * Function2: cardString
+     * Function: cardString
      * @param cardNumber (int)
      * @return (String)
      * 
@@ -142,6 +175,16 @@ public class BlackJack {
                     "  |_%%%>|\n";
 
              default: return "not possible";
-         }
+        }
     }
+
+    public static String faceDownCard() {
+            return 
+            "   _____\n"+
+            "  |     |\n"+
+            "  |  J  |\n"+
+            "  | JJJ |\n"+
+            "  |  J  |\n"+
+            "  |_____|\n";
+        }
 }
