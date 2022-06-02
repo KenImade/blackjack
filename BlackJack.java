@@ -58,7 +58,7 @@ public class BlackJack {
 
                 computerTotal += Math.min(newComputerCard, 10);
                 System.out.println("\n Dealer gets a \n" + cardString(newComputerCard));
-                System.out.println("Dealer;s total is " + computerTotal);
+                System.out.println("Dealer's total is " + computerTotal);
         }
 
         if(computerTotal > 21) {
