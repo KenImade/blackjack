@@ -10,42 +10,69 @@ public class BlackJack {
         System.out.println("We shall see..");
         System.out.println("..Ready? Press anything to begin!");
 
-        String response = scan.next();
+        scan.nextLine();
 
-        int playerFirstNumber = generateRandomNumber();
-        int playerSecondNumber = generateRandomNumber();
-        int playerTotal = playerFirstNumber + playerSecondNumber;
+        int playerCardOne = generateRandomNumber();
+        int playerCardTwo = generateRandomNumber();
+        int playerTotal = Math.min(playerCardOne, 10) + Math.min(playerCardTwo, 10);
         
-        System.out.print("\n You get a \n " + cardString(playerFirstNumber) + "\n and a \n" + cardString(playerSecondNumber));
+        System.out.print("\n You get a \n " + cardString(playerCardOne) + "\n and a \n" + cardString(playerCardTwo));
 
-        System.out.print("Your total is: " + playerTotal);
+        System.out.println("Your total is: " + playerTotal);
 
-        int computerFirstNumber = generateRandomNumber();
-        int computerSecondNumber = generateRandomNumber();
-        int computerTotal = computerFirstNumber + computerSecondNumber;
+        int computerFirstCard = generateRandomNumber();
+        int computerSecondCard = generateRandomNumber();
+        int computerTotal = Math.min(computerFirstCard, 10) + Math.min(computerSecondCard, 10);
 
-        System.out.print("The dealer shows \n" + cardString(computerFirstNumber) + "\nand has a card facing down \n" + faceDownCard());
-        System.out.print("\nThe dealer's total is hidden");
+        System.out.print("The dealer shows \n" + cardString(computerFirstCard) + "\nand has a card facing down \n" + faceDownCard());
+        System.out.print("\nThe dealer's total is hidden\n");
 
-        System.out.print("Hit or Stay?: ");
-        String playerInput = scan.next();
+        
 
         while(true) {
-                playerInput = playerInput.toLowerCase();
+               String playerInput = hitOrStay();
+
                if (playerInput.equals("hit")){
                         int newNumber = generateRandomNumber();
                         String newCard = cardString(newNumber);
                         playerTotal += newNumber;
 
                         System.out.print("\n You get a \n " + newCard);
-                        System.out.print("Your new total is " + playerTotal);
+                        System.out.println("Your new total is " + playerTotal);
+
+                        if (playerTotal > 21) {
+                                System.out.println("Bust! Player loses");
+                                System.exit(0);
+                        }
                 } else if (playerInput.equals("stay")) {
                         break;
                 }
+        }
 
-                scan.close();
+        System.out.println("\nDealer's turn");
+        System.out.println("\n The dealer's cards are \n" + cardString(computerFirstCard) + "\n and a \n" + cardString(computerSecondCard));
+        System.out.println("Dealer's total is " + computerTotal);
+
+        while (computerTotal < 17) {
+                int newComputerCard = generateRandomNumber();
+
+                computerTotal += Math.min(newComputerCard, 10);
+                System.out.println("\n Dealer gets a \n" + cardString(newComputerCard));
+                System.out.println("Dealer;s total is " + computerTotal);
+        }
+
+        if(computerTotal > 21) {
+                System.out.println("Bust! Dealer loses.");
+                System.exit(0);
+        }
+
+        if( playerTotal > computerTotal) {
+                System.out.println("Player wins!");
+        } else {
+                System.out.println("Dealer wins!");
         }
         
+        scan.close();
     }
 
     /**
@@ -187,4 +214,30 @@ public class BlackJack {
             "  |  J  |\n"+
             "  |_____|\n";
         }
+
+    /**
+ * Function name - hitOrStay
+ * @return (String)
+ * 
+ * Inside the function: 
+ *      1. Asks the user to hit or stay.
+ *      2. If the user doesn't enter "hit" or "stay", 
+ *      keep asking them to try again by printing:
+ *              Please write "hit" or "stay"
+ *      3. Returns the user's option
+ */
+
+    public static String hitOrStay() {
+        
+        while (true) {
+                System.out.print("Hit or Stay?: ");
+                String response = scan.nextLine().toLowerCase();
+                if (!(response.equals("hit") || response.equals("stay"))) {
+                        System.out.println("Please write 'hit' or 'stay'");
+                        continue;
+                } else {
+                        return response;
+                }
+        }
+    } 
 }
